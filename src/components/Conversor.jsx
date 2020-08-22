@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 const axios = require('axios');
 
 const Conversor = () => {
-  const [moeda1, setMoeda1] = useState('USD');
-  const [moeda2, setMoeda2] = useState('BRL');
+  const [moeda1, setMoeda1] = useState('');
+  const [moeda2, setMoeda2] = useState('');
   const [valor, setValor] = useState(1);
   const [valorConvertido, setValorConvertido] = useState(0);
 
@@ -15,12 +15,9 @@ const Conversor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (moeda1 === moeda2) alert('Essa conversão não é possível');
     getAPI();
   };
-
-  console.log('valor digitado no input', valor);
-
-  console.log('valor convertido * valor: ', valorConvertido * valor);
 
   return (
     <form className="container d-flex flex-column" onSubmit={(e) => handleSubmit(e)}>
@@ -28,11 +25,12 @@ const Conversor = () => {
 
       <div className="dropdown">
         <label htmlFor="moeda1">Converta</label>
-        <select name="" id="" onChange={(e) => setMoeda1(e.target.value)}>
+        <select value={moeda1} id="moeda1" onChange={(e) => setMoeda1(e.target.value)}>
           <option value="">Escolha</option>
-          <option value="USD">Dolár - US$</option>
+          <option value="USD">Dólar - US$</option>
           <option value="EUR">Euro - &#8364;</option>
           <option value="BRL">Real - R$</option>
+          <option value="CAD">Dólar Canadense - CA$</option>
         </select>
       </div>
 
@@ -52,9 +50,10 @@ const Conversor = () => {
         <label htmlFor="moeda2">Para</label>
         <select name="" id="" onChange={(e) => setMoeda2(e.target.value)}>
           <option value="">Escolha</option>
-          <option value="USD">Dolár - US$</option>
+          <option value="USD">Dólar - US$</option>
           <option value="EUR">Euro - &#8364;</option>
           <option value="BRL">Real - R$</option>
+          <option value="CAD">Dólar Canadense - CA$</option>
         </select>
       </div>
 
@@ -68,7 +67,7 @@ const Conversor = () => {
       <h3>
         {(valorConvertido * valor).toLocaleString('pt-br', {
           style: 'currency',
-          currency: `${moeda2}`,
+          currency: `${moeda2 || 'BRL'}`,
         })}
       </h3>
     </form>
