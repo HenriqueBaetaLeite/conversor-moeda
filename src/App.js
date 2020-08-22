@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Conversor from './components/Conversor';
 
 function App() {
