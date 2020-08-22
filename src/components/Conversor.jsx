@@ -9,8 +9,8 @@ const Conversor = () => {
   const [valorConvertido, setValorConvertido] = useState(0);
 
   const URL = `https://api.ratesapi.io/api/latest?base=${moeda1}&symbols=${moeda2}`;
-  const getAPI = () => {
-    axios.get(URL).then((resp) => setValorConvertido(resp.data.rates[moeda2]));
+  const getAPI = async () => {
+    await axios.get(URL).then((resp) => setValorConvertido(resp.data.rates[moeda2]));
   };
 
   const handleSubmit = (e) => {
@@ -65,10 +65,12 @@ const Conversor = () => {
 
       <h3>Valor convertido:</h3>
       <h3>
-        {(valorConvertido * valor).toLocaleString('pt-br', {
-          style: 'currency',
-          currency: `${moeda2 || 'BRL'}`,
-        })}
+        {moeda2
+          ? (valorConvertido * valor).toLocaleString('pt-br', {
+              style: 'currency',
+              currency: `${moeda2}`,
+            })
+          : null}
       </h3>
     </form>
   );
